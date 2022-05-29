@@ -28,7 +28,8 @@ with open('test.csv','r') as file:
                     'c':start,
                     'd':end}
 
-        cur.execute('INSERT INTO employees(employee,project,start_date,end_date ) VALUES(%(a)s, %(b)s, %(c)s, %(d)s)', dict_query)
+        cur.execute('INSERT INTO employees(employee,project,start_date,end_date )'
+                    ' VALUES(%(a)s, %(b)s, %(c)s, %(d)s)', dict_query)
 
 
 con.commit()

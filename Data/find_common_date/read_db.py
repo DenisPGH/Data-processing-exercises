@@ -1,18 +1,33 @@
-import sqlite3
 from datetime import datetime
-import  pandas as pd
+
+import psycopg2
+
+con = psycopg2.connect(
+    host="localhost",
+    database="TEST",
+    user="denis_postgre",
+    password="D_12-K9")
 
 
 
-
-
-
-con = sqlite3.connect('employees.db')
 cur = con.cursor()
-a=cur.execute('SELECT * FROM employees ORDER BY date(start) DESC Limit 1')
 
-for r in a:
-    print(r)
+
+
+
+
+wished_date ='2000-03-02'
+wished_date = datetime.strptime(f'{wished_date}', '%Y-%m-%d')
+dict_query={'a':wished_date,}
+
+#a=cur.execute('SELECT * FROM employees ORDER BY date(start_date) DESC Limit 1')
+#a=cur.execute('SELECT * FROM  employees ORDER BY end_date DESC ')
+a=cur.execute('SELECT * FROM  employees WHERE project=4 AND start_date > %(a)s ',dict_query)
+a = cur.fetchall()
+print(len(a))
+print(a)
+# for r in a:
+#     print(r)
 
 
 con.close()
