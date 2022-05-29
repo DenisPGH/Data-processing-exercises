@@ -97,8 +97,8 @@ result_b=cur.execute('SELECT * FROM  employees WHERE  employee=%(second_)s AND p
 #result=cur.execute('SELECT * FROM employees WHERE project=1')
 result_b=cur.fetchall()
 
-print(result_a[0][2],result_a[0][3])
-print(result_b[0][2],result_b[0][3])
+print(result_a[0][2],result_a[0][3],result_a[0][1])
+print(result_b[0][2],result_b[0][3],result_a[0][1])
 
 
 
