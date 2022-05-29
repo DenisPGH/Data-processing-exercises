@@ -27,7 +27,14 @@ dict_query={'a':wished_date,
 #a=cur.execute('SELECT * FROM  employees ORDER BY end_date DESC ')
 #a=cur.execute('SELECT * FROM  employees WHERE project=4 AND start_date > %(a)s ',dict_query)
 #a=cur.execute('SELECT * FROM  employees WHERE project=3 ORDER BY end_date-start_date DESC LIMIT 2',dict_query)
-a=cur.execute('SELECT * FROM  employees WHERE project=2 AND start_date between  %(a)s and %(b)s ORDER BY end_date-start_date DESC',dict_query)
+#a=cur.execute('SELECT f1.* FROM employees f1 WHERE exists (select 1 FROM employees f2 where tsrange(f2.start_date, f2.end_date ) AND tsrange(f1.start_date, f1.end_date) and f2.project = f1.project)')
+#a=cur.execute('SELECT f1.* FROM employees f1 WHERE project=3 and exists (select 1 FROM employees f2 where f1.start_date in (f2.start_date, f2.end_date ) AND f2.start_date in (f1.start_date, f1.end_date) and f2.project = f1.project)')
+a=cur.execute('SELECT f1.* FROM employees f1 WHERE '
+              'exists (select 1 '
+              'FROM employees f2 '
+              'WHERE f1.start_date=f2.start_date '
+              'AND f2.project = f1.project AND f2.employee <> f1.employee)')
+
 a = cur.fetchall()
 print(len(a))
 print(a)
