@@ -29,17 +29,25 @@ dict_query={'a':wished_date,
 #a=cur.execute('SELECT * FROM  employees WHERE project=3 ORDER BY end_date-start_date DESC LIMIT 2',dict_query)
 #a=cur.execute('SELECT f1.* FROM employees f1 WHERE exists (select 1 FROM employees f2 where tsrange(f2.start_date, f2.end_date ) AND tsrange(f1.start_date, f1.end_date) and f2.project = f1.project)')
 #a=cur.execute('SELECT f1.* FROM employees f1 WHERE project=3 and exists (select 1 FROM employees f2 where f1.start_date in (f2.start_date, f2.end_date ) AND f2.start_date in (f1.start_date, f1.end_date) and f2.project = f1.project)')
-a=cur.execute('SELECT f1.* FROM employees f1 WHERE '
+bbbb=cur.execute('SELECT f1.* FROM employees f1 WHERE '
               'exists (select 1 '
               'FROM employees f2 '
               'WHERE f1.start_date=f2.start_date '
               'AND f2.project = f1.project AND f2.employee <> f1.employee)')
 
+a=cur.execute('SELECT f1.* FROM employees f1 WHERE '
+              'exists (select 1 '
+              'FROM employees f2 '
+              'WHERE tsrange(f2.start_date, f2.end_date)  && tsrange(f1.start_date, f1.end_date) '
+              'AND f2.project = f1.project '
+              'AND f2.employee <> f1.employee)')
+
 a = cur.fetchall()
 print(len(a))
 print(a)
 for r in a:
-    print(f"{r[2]},{r[3]}")
+    print(f"{r[3]},{r[2]}")
+    print(f"{r[2]-r[3]}")
 
 
 con.close()

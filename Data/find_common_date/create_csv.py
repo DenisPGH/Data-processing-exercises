@@ -4,7 +4,7 @@ import random
 with open('test.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=',',
                             quotechar=',', quoting=csv.QUOTE_MINIMAL)
-    for a in range(30):
+    for a in range(3):
         spamwriter.writerow(
             [f'{random.randint(1,300)}',
              f' {random.randint(1,5)}',
