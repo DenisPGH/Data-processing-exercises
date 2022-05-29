@@ -42,12 +42,19 @@ a=cur.execute('SELECT f1.* FROM employees f1 WHERE '
               'AND f2.project = f1.project '
               'AND f2.employee <> f1.employee)')
 
-a = cur.fetchall()
+a = cur.fetchall() # list of tuples
 print(len(a))
 print(a)
+
 for r in a:
-    print(f"{r[3]},{r[2]}")
+    print(f"{r[2]},{r[3]}")
     print(f"{r[2]-r[3]}")
+if a:
+    latest_start = max(a[0][2], a[1][2])
+    earliest_end = min(a[0][3], a[1][3])
+    delta = (earliest_end - latest_start).days
+    overlap = max(0, delta)
+    print(overlap)
 
 
 con.close()
