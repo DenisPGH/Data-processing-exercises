@@ -12,6 +12,19 @@
             background: #006b1b;
             font-size: 22px;
         }
+        table {
+             counter-reset: row-num;
+        }
+        table tr.sec {
+            counter-increment: row-num;
+        }
+        table tr.sec {
+            counter-reset: rowNumber;
+            counter-increment: row-num;
+        }
+        table tr.sec td:first-child::before {
+    content: counter(row-num) ". ";
+}
     </style>
 </head>
 <body>
@@ -41,7 +54,7 @@ function showText(){
 
 <div>
 <table>
-    <tr>
+    <tr class="fir">
         <th>Numer</th>
         <th>Title</th>
         <th>LINK</th>
@@ -53,8 +66,8 @@ function showText(){
 
     </tr>
     {%  for each in jobs %}
-        <tr>
-            <th>{{ each.id }}</th>
+        <tr class="sec">
+            <td></td>
             <th>{{ each.title }}</th>
             <td>
                 <a href="{{ each.link }}">Visit</a>
