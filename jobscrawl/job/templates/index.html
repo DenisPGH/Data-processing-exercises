@@ -30,11 +30,12 @@
 <body>
 
 <div>
+    <p>{{ today }}</p>
     <form class="mid" action="{% url 'crawl' %}">
-            <button class="mid" id="stop">Get Jobs for today</button>
+            <button class="mid" id="stop">Get Jobs for today*</button>
             {% csrf_token %}
         </form>
-        <h3> it takes about 80 sec </h3>
+        <h5> * it takes about 80 sec, then refresh the page </h5>
 {#    <button class="on" onclick="crawl_on()">Get Jobs</button>#}
     <p id="wait" ></p>
 </div>

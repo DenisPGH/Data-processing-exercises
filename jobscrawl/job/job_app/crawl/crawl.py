@@ -9,6 +9,9 @@ from job_app.crawl.models import Job
 
 
 def prove_for_german_letter(text):
+    """ function for clear the text from no ASCII char,
+     and replace german letters,
+     return pure text"""
     deutsche={'ö':"oe",'Ö':'OE','Ü':'UE','ü':'ue','ä':'ae','Ä':'AE'}
     for each in deutsche:
         if each in text:
@@ -22,6 +25,8 @@ def prove_for_german_letter(text):
 #_sn=13 #$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session')
 #_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session; = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session;')
 def crawl_data_from_jobs_ch():
+    """ this function crawl all result by given criteria
+    and store returned result ot db and txt file"""
     for_del=Job.objects.all()
     for_del.delete()
     cookies = {
