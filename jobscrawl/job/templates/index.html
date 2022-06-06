@@ -2,9 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Jobs</title>
+    <style>
+        table, th, td {
+            border: 1px solid;
+
+        }
+        body{
+            background: #006b1b;
+            font-size: 22px;
+        }
+    </style>
 </head>
 <body>
-<h2> heee</h2>
+
+<div>
+    <form class="mid" action="{% url 'crawl' %}">
+            <button class="mid" id="stop">Get Jobs for today</button>
+            {% csrf_token %}
+        </form>
+        <h3> it takes about 80 sec </h3>
+{#    <button class="on" onclick="crawl_on()">Get Jobs</button>#}
+    <p id="wait" ></p>
+</div>
+
+<script>
+function crawl_on() {
+  {#document.getElementById("demo").src = "/job";#}
+  document.getElementById("wait").innerHTML = "Turning on. . . . .";
+  setTimeout(showText, 1000);
+
+}
+function showText(){
+  document.getElementById("wait").innerHTML = "Done";
+}
+</script>
+
+
+<div>
+<table>
+    <tr>
+        <th>Numer</th>
+        <th>Title</th>
+        <th>LINK</th>
+        <th>Date</th>
+        <th>Place</th>
+        <th>Active</th>
+
+
+
+    </tr>
+    {%  for each in jobs %}
+        <tr>
+            <th>{{ each.id }}</th>
+            <th>{{ each.title }}</th>
+            <td>
+                <a href="{{ each.link }}">Visit</a>
+            </td>
+            <td>{{ each.publication_date}}</td>
+            <td>{{ each.place}}</td>
+            <td>
+                {{ each.is_active }}
+            </td>
+
+
+        </tr>
+
+    {% endfor %}
+</table>
+</div>
 </body>
 </html>

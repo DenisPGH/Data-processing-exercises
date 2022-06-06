@@ -1,7 +1,8 @@
 from django.urls import path
 
-from job_app.crawl.views import IndexPage
+from job_app.crawl.views import IndexPage, StoreNewJobs
 
 urlpatterns = [
-    path('',IndexPage.as_view()),
+    path('',IndexPage.as_view(),name='index'),
+    path('job/',StoreNewJobs,name='crawl'),
 ]
