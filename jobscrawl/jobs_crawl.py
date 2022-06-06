@@ -2,6 +2,18 @@ import json
 import os
 import csv
 import requests
+import time
+
+def prove_for_german_letter(text):
+    deutsche={'ö':"oe",'Ö':'OE','Ü':'UE','ü':'ue','ä':'ae','Ä':'AE'}
+    for each in deutsche:
+        if each in text:
+            text=text.replace(each,deutsche[each])
+    for each_letter in text:
+        if not 0 <= ord(each_letter) <= 127:
+            text=text.replace(each_letter,'-')
+
+    return str(text)
 
 #_sn=13 #$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session')
 #_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session; = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session;')
@@ -46,15 +58,39 @@ headers = {
     'x-source': 'jobs_ch_desktop',
 }
 
-params = {
-    'location': 'Bern',
-    'page': '5',
-    'rows': '20',
-    'sort': 'date',
-}
 
-response = requests.get('https://www.jobs.ch/api/v1/public/search', params=params, cookies=cookies, headers=headers)
-result=json.loads(response.text)
+counter=1
+code=0
+start=time.time()
+while True:
+    params = {
+        'location': 'Bern',
+        'page': f'{counter}',
+        'rows': '20',
+        'sort': 'date',
+    }
+    response = requests.get('https://www.jobs.ch/api/v1/public/search', params=params, cookies=cookies, headers=headers)
+    result=json.loads(response.text)
+    code=response.status_code #200 ok,422 ne e
+
+    if code!=200:
+        break
+
+    print(f"Page: {counter} ==> {len(result['documents'])}")
+    counter+=1
+    with open('info.csv', mode='a', newline='') as job_file:
+        jobs_writer = csv.writer(job_file, delimiter='|')
+        for each_job_ind in range(len(result['documents'])):
+            title = prove_for_german_letter(result["documents"][each_job_ind]['title'])
+            # (title)
+            publication_date = result["documents"][0]['publication_date'].split('T')[0]
+            # print(publication_date)
+            place = prove_for_german_letter(result["documents"][each_job_ind]['place'])
+            is_active = result["documents"][each_job_ind]['is_active']
+            link_ = result["documents"][each_job_ind]['_links']['detail_de']['href']
+            # jobs_writer.writerow([title.encode("utf-8")])
+            jobs_writer.writerow([title, publication_date, place, is_active, link_])
+
 #print(result)
 # with open('jobs.json','w') as file:
 #     file.write(result)
@@ -64,42 +100,11 @@ result=json.loads(response.text)
 #     for each_job_ind in range(len(result['documents'])):
 #         csv.write(str(each_job_ind))
 
-def prove_for_german_letter(text):
-    deutsche={'ö':"oe",'Ö':'OE','Ü':'UE','ü':'ue','ä':'ae','Ä':'AE'}
-    for each in deutsche:
-        if each in text:
-            text=text.replace(each,deutsche[each])
-    for each_letter in text:
-        if not 0 <= ord(each_letter) <= 127:
-            text=text.replace(each_letter,'-')
-
-    return str(text)
+print(f'Time for it: {time.time()-start}')
 
 
 
 
-with open('info.csv', mode='w',newline='') as job_file:
-    jobs_writer = csv.writer(job_file, delimiter='|')
-    for each_job_ind in range(len(result['documents'])):
-        title = prove_for_german_letter(result["documents"][each_job_ind]['title'])
-        print(title)
-        publication_date = result["documents"][0]['publication_date'].split('T')[0]
-        #print(publication_date)
-        place = prove_for_german_letter(result["documents"][each_job_ind]['place'])
-        is_active = result["documents"][each_job_ind]['is_active']
-        link_ = result["documents"][each_job_ind]['_links']['detail_de']['href']
-        #jobs_writer.writerow([title.encode("utf-8")])
-        jobs_writer.writerow([title,publication_date,place,is_active,link_])
 
 
-#print(len(result["documents"][0]))
-link=result["documents"][0]['_links']['detail_de']['href']#.encode("utf-8")
-title=result["documents"][0]['title']
-id=result["documents"][0]['company_id']
-publication_date=result["documents"][0]['publication_date']
-preview=result["documents"][0]['preview']
-place=result["documents"][0]['place']
-is_active=result["documents"][0]['is_active']
-#print(result["documents"][0])
-#print(link)
-#print(title)
+
