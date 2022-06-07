@@ -1,6 +1,6 @@
 import csv
 
-from job_app.crawl.crawl_jobs_ch import prove_for_german_letter
+from job_app.crawl.crawl_jobs_ch import prove_for_german_letter, bad_works
 from job_app.crawl.models import JobScout
 
 import requests
@@ -57,6 +57,7 @@ def searcher_jobscout():
     counter_pages=1
     counter_found_jobs=0
     prefix='https://www.jobscout24.ch'
+
     with open('result_scout.csv', 'w') as file:
         file.write('')
 
@@ -119,6 +120,8 @@ def searcher_jobscout():
 
 
                 obs_writer.writerow([name,link,place,employer])
+                if bad_works(name):
+                    continue
                 new_jobs=JobScout(
                     title=name,
                     link=prefix+link,
@@ -129,5 +132,6 @@ def searcher_jobscout():
                 new_jobs.save()
 
 
-    print(counter_found_jobs)
+    #print(counter_found_jobs)
+    print('done jobscout')
 

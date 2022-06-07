@@ -22,6 +22,22 @@ def prove_for_german_letter(text):
 
     return str(text)
 
+
+def bad_works(name):
+    """
+    if has a bad work return true and dont save in db
+    else return false, it will be save
+    """
+    bad_works = ['pflege', 'pflege', 'dipl.', 'sachberater',
+                 'sozial', 'sozial', 'geruestbauer', 'geruestbauer',
+                'apotheker', 'automatiker', 'fage', 'gipser', 'sachbearbeit',
+                 'wissenschaft','zimmerm','maler','metallbauer',
+                 'fabe','buchhalter']
+    if any(word in name.lower() for word in bad_works):
+        return True
+    else:
+        return False
+
 #_sn=13 #$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session')
 #_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session; = os.getenv('_sn:13$_se:7$_ss:0$_st:1654522198770$browser_client_id:el97kjl4$user_anon_id:anon_467984385155$dc_visit:13$ses_id:1654520385639%3Bexp-session$_pn:1%3Bexp-session$dc_event:7%3Bexp-session$dc_region:eu-central-1%3Bexp-session;')
 def crawl_data_from_jobs_ch():
@@ -110,6 +126,8 @@ def crawl_data_from_jobs_ch():
                 link_ = result["documents"][each_job_ind]['_links']['detail_de']['href']
                 # jobs_writer.writerow([title.encode("utf-8")])
                 jobs_writer.writerow([title, publication_date, place, is_active, link_])
+                if bad_works(title):
+                    continue
                 new_job=Job(
                     title=title,
                     publication_date=publication_date,
