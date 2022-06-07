@@ -80,16 +80,22 @@ while True:
     if response.status_code !=200:
         break
     counter_pages+=1
-    #print(response.text)
+    print(response.text)
     html=soup(response.text,'html.parser')
     all_jobs=html.select('.upper-line') # return a list
     job_attributes=html.select('.job-attributes')
-    print(job_attributes[0])
+    dict_=dict(zip(all_jobs,job_attributes))
+    #print(job_attributes[0])
     #print(len(all_jobs))
     #print(all_jobs[0])
-    for each_result in all_jobs:
-        info=re.finditer(pattern,str(each_result))
-        places=re.finditer(patter_town,str(each_result))
+    for key,value in dict_.items():
+        info=re.finditer(pattern,str(key))
+        places=re.finditer(patter_town,str(value))
+
+        name=''
+        link=''
+        place=''
+        employer=''
 
         with open('result_scout.csv', mode='a', newline='') as job:
             obs_writer = csv.writer(job, delimiter='|')
@@ -97,7 +103,12 @@ while True:
                 counter_found_jobs+=1
                 link=str(each_data.group('link'))
                 name=str(prove_for_german_letter_(each_data.group('name')))
-                obs_writer.writerow([name,link])
+            for each_place in places:
+                place = str(prove_for_german_letter_(each_place.group('place')))
+                employer = str(prove_for_german_letter_(each_place.group('employer')))
+
+
+            obs_writer.writerow([name,link,place,employer])
                 #print(name)
 
 print(counter_found_jobs)
