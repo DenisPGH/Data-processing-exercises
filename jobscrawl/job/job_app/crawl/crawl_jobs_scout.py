@@ -82,7 +82,7 @@ def searcher_jobscout():
         params = {
             'psz': '3000',
             'p': f'{counter_pages}',
-            'actuality': '0',
+            'actuality': '0', # last 24 hr is set
         }
 
 

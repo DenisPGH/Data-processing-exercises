@@ -92,7 +92,7 @@ def crawl_data_from_jobs_ch():
         if code!=200:
             break
 
-        print(f"Page: {counter} ==> {len(result['documents'])}")
+        print(f"Jobs.ch Page: {counter} ==> {len(result['documents'])}")
         counter+=1
         with open('info.csv', mode='a', newline='') as job_file:
             jobs_writer = csv.writer(job_file, delimiter='|')
