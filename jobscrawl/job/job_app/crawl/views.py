@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic as views
 
 # Create your views here.
-from job_app.crawl.crawl import crawl_data_from_jobs_ch
+from job_app.crawl.crawl_jobs_ch import crawl_data_from_jobs_ch
 from job_app.crawl.models import Job
 from  datetime import datetime
 
