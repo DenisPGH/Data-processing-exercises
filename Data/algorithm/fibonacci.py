@@ -33,8 +33,14 @@ def sum(n):
 # print(sum(500000000000000000))
 # print(time.time()-starta)
 
-bad_works=['Pflege','pflege','dipl.','Dipl.','Sachberater','Sozial','sozial','Geruestbauer','geruestbauer']
-name='Pflegmeister gesucht'
 
-if any(word in name for word in bad_works):
-    print(True)
+
+
+# starta=time.time()
+# print(sum(500000000000000000))
+# print(time.time()-starta)
+
+import numpy as np
+
+a=np.arange(1,1000)
+print(a[1])
