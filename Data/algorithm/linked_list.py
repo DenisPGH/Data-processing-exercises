@@ -36,9 +36,9 @@ class LinkedList:
 
 if __name__=='__main__':
     ll=LinkedList()
-    ll.insert_on_top(20)
-    ll.insert_on_top(10)
+    ll.insert_on_top(1)
     ll.insert_on_top(2)
+    ll.insert_on_top(3)
     ll.insert_on_end(100)
     ll.print()
 
