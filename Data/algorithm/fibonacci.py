@@ -35,11 +35,6 @@ def sum(n):
 
 
 
-
-# starta=time.time()
-# print(sum(500000000000000000))
-# print(time.time()-starta)
-
 import numpy as np
 
 a=np.arange(1,1000)
