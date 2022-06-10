@@ -97,7 +97,7 @@ def searcher_jobscout():
         job_attributes=html.select('.job-attributes')
         dict_=dict(zip(all_jobs,job_attributes))
         #print(job_attributes[0])
-        print(f"Page {counter_pages} ==> {len(all_jobs)}")
+        print(f" Jobscout Page {counter_pages} ==> {len(all_jobs)}")
         #print(all_jobs[0])
         for key,value in dict_.items():
             info=re.finditer(pattern,str(key))

@@ -7,9 +7,14 @@
         {#a {#}
         {#    color: white;#}
         {#    }#}
+        a:link {
+            text-decoration: none;
+            color: white;
+        }
         table, th, td {
             border: 1px solid;
             border-color: #e4e4e4;
+            text-align: left;
 
         }
         body{
@@ -117,8 +122,8 @@ function showText(){
     {%  for each in jobscout %}
         <tr class="sec">
             <td></td>
-{#            <th> <a href="{{ each.link }}">{{ each.title }}</a></th>#}
-            <th>{{ each.title }}</th>
+            <th> <a href="{{ each.link }}">{{ each.title }}</a></th>
+{#            <th>{{ each.title }}</th>#}
             <td>
                 <a href="{{ each.link }}">Jobscout</a>
             </td>
