@@ -90,7 +90,8 @@ function showText(){
     {%  for each in jobs %}
         <tr class="sec">
             <td></td>
-            <th>{{ each.title }}</th>
+            <th> <a href="{{ each.link }}">{{ each.title }}</a></th>
+{#            <th>{{ each.title }}</th>#}
             <td>
                 <a href="{{ each.link }}">Jobs.ch</a>
             </td>
